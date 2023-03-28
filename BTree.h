@@ -74,22 +74,27 @@ class BTree{
         }
         
         shared_ptr<Node<T>> find(const T& item, shared_ptr<Node<T>> ptr){
+            if (ptr == nullptr){
+                return ptr;
+            }
             if(item < ptr->data){
-                find(item, ptr->left);
+                return find(item, ptr->left);
             }else if (item > ptr->data){
-                find(item, ptr->right);
+                return find(item, ptr->right);
             }else{
                 return ptr;
             }
+            return ptr;
         }
 
         shared_ptr<Node<T>> findRightMostNode(shared_ptr<Node<T>> ptr){
         //findRightMostNode() is a helper method used in the remove() function.  It should normally be a private method, but leave it public for testing purposes. Given a tree and a node, it will find the right most node of the branch from the given node
             if (ptr->right){
-                findRightMostNode(ptr->right);
+                return findRightMostNode(ptr->right);
             }else{
                 return ptr;
             }
+            return ptr;
         }
 
         shared_ptr<Node<T>> findParent(shared_ptr<Node<T>> ptr){
@@ -98,54 +103,31 @@ class BTree{
         }
 
         void remove(const T& item){
-        //The remove will remove the given node from the list.  Remember there are four situations: no children, left child, right child, and two children. 
-            auto curr = find(item);
-
-            if(curr->parent->left->data == item){ //am the left child
-                if(curr->left && curr->right){ //has two children
-                    
-                }else if(curr->left && !curr->right){ //has left child only
-                    
-                }else if(curr->right && !curr->left){ //has right child only
-
-                }else{ // has no children
-
+            remove(item, root);
+        }
+        
+        void remove(const T& item, shared_ptr<Node<T>> ptr){
+        //The remove will remove the given node from the list.  Remember there are four situations: no children, left child, right child, and two children.      
+            if(ptr){
+                if (item > ptr->data){
+                    remove(item, ptr->right);
+                }else if (item < ptr->data){
+                    remove(item, ptr->left);
+                }else{
+                    if(ptr->left == nullptr && ptr->right == nullptr){
+                        ptr->parent->left = nullptr;
+                    }else if(ptr->left == nullptr){
+                        ptr->parent->left = ptr->right;
+                    }else if(ptr->right == nullptr){
+                        ptr->parent->right = ptr->left;
+                    }else{
+                        ptr->data = findRightMostNode(ptr->left)->data;
+                        remove(ptr->data, ptr->left);
+                    }
                 }
-            }else{ //am the right child
-                if(curr->left && curr->right){ //has two children
-                
-                }else if(curr->left && !curr->right){ //has left child only
-                    
-                }else if(curr->right && !curr->left){ //has right child only
-
-                }else{ // has no children
-
-                }
+            }else{
+                return;
             }
-
-            
-
-
-            // auto curr = root;
-            // if(curr){
-            //     if (item > curr->data){
-            //         remove(curr->right);
-            //     }else if (item < curr->data){
-            //         remove(curr->left);
-            //     }else{
-            //         if(curr->left == nullptr){
-            //             curr = curr->right;
-            //         }else if(curr->right == nullptr){
-            //             curr = curr->left;
-            //         }else{
-            //             curr = findRightMostNode(curr->left);
-            //             remove(curr->right);
-            //         }
-            //     }
-                
-            // }else{
-            //     return;
-            // }
         }
         
     private:

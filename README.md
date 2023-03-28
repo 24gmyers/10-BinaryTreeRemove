@@ -41,6 +41,7 @@ If you have found the item to be removed, there are three cases...
 1. If the left pointer is null, replace the node with the right branch (base case)
 2. else If the right pointer is null, replace the node with the left branch (base case)
 3. Otherwise, replace the node's value with the value in the rightmost node of the left branch and remove the node that contains that value. (recursive case again)
+
 Here is a visual representation of the test data being used.
 
-![Binary Tree](https://weber.instructure.com/courses/564343/files/107306265/preview "Binary Tree")
+![Binary Tree](https://github.com/24gmyers/10-BinaryTreeRemove/blob/master/btreeData.PNG?raw=true "Binary Tree")
