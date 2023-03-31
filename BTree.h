@@ -6,7 +6,7 @@
 using namespace std;
 
 template <typename T>
-struct Node {
+struct Node{
     Node(T data) : data(data), left(nullptr), right(nullptr), parent(nullptr) {};
     Node(){};
     T data;
@@ -22,7 +22,7 @@ class BTree{
         void insert(const T& item){
             if (root == nullptr){
                 root = make_shared<Node<T>>(item);
-            }else {
+            }else{
                 insert(item, root);
             }
         }
